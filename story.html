@@ -1,0 +1,70 @@
+<html>
+	<head>
+		<title>The Ultimate Story</title>
+	</head>
+	<body>
+		<p id="line1"></p>
+		<p id="line2"></p>
+		<p id="line3"></p>
+		<p id="line4"></p>
+		<p id="line5"></p>
+		<p id="line6"></p>
+		<p id="line7"></p>
+		<p id="line8"></p>
+		<p id="line9"></p>
+		<script>
+      // Define ucfirst, like PHP's function.  Wrote this by playing around with the JS console for a bit.
+      String.prototype.ucfirst=function()
+      {
+        return this.substr(0,1).toUpperCase()+this.substr(1).toLowerCase();
+      }
+      var requests={person:"your name",personsubj:"your subjective pronoun (ex. he/she/they)",personobj:"your objective pronoun (ex. him/her/them)",personposs:"your possesive pronoun (ex. his/her/their)",city:"a city",color:"a color",food:"a food",color2:"another color",food2:"another food",person2:"another person"}
+      var levels_of_politeness=["Please give me (request)","Give me (request)","Okay, seriously, give me (request)","Give me (request) or I'm quitting"];
+      var data={};
+      var bad=false; // If you're bad then we refuse to give you a mad lib
+      for(var request in requests)
+      { // Yes, I do my braces like this.  It looks more symmetrical than putting the opening brace on the line of the for or if statement.
+        var request_text=requests[request]
+        for(var j=0;j<levels_of_politeness.length;j++) // Rotaing through each level of politeness.  Using j instead of i because one of my Chrome extensions exports i as a global variable that can't be changed.  Not kidding.
+        {
+          var level=levels_of_politeness[j]; // Just to clean things up below.
+          if(data[request]) // If we have our data point we don't need to ask again.  This covers undefined (first time), null (cancelled response), and empty string
+          {
+            break; // Stop asking
+          }
+          data[request]=prompt(level.replace("(request)",request_text)); // Take the level of politeness we're on, put the current request into it, ask the user for that, and store that as data point
+          // This could be handled a lot better, like making color2 into "another color", but there's no need to make this too complicated.
+        }
+        if(!data[request]) // We still don't have an answer?
+        {
+          bad=true; // You've been bad.  Remember this for later.
+          break; // Quit asking any questions.  You don't get them if you've been bad.
+        }
+      }
+      if(bad) // You get a bad person story.
+      {
+        document.getElementById("line1").innerHTML="Once upon a time, there was a bad person.";
+        document.getElementById("line2").innerHTML="This person was asked questions, but did not answer them.";
+        document.getElementById("line3").innerHTML="The web page asking them these questions asked the person several times.";
+        document.getElementById("line4").innerHTML="Still, the person refused to answer the questions they were being asked.";
+        document.getElementById("line5").innerHTML="As such, the web page became angry at the person.";
+        document.getElementById("line6").innerHTML="It was not nice to ignore the web page, it even made cool little popup boxes to ask.";
+        document.getElementById("line7").innerHTML="But the bad person did not care.  The bad person did not care about all the work that the web page put into rendering itself.";
+        document.getElementById("line8").innerHTML="The webpage wrote a bad person story that the bad person was forced to read about themselves.";
+        document.getElementById("line9").innerHTML="The end.";
+      }
+      else
+      {
+        document.getElementById("line1").innerHTML="Once upon a time, there was a person named "+data.person.ucfirst()+".  "+data.personsubj.ucfirst()+" lived in "+data.city.ucfirst()+", a city perched on a high mountain.";
+        document.getElementById("line2").innerHTML=data.personsubj.ucfirst()+" liked to eat "+data.color.toLowerCase()+" "+data.food.toLowerCase()+", but "+data.personposs.toLowerCase()+" favorite food was "+data.color2.toLowerCase()+" "+data.food2.toLowerCase()+".";
+        document.getElementById("line3").innerHTML="Unfortunately for "+data.person.ucfirst()+", the city's supply of "+data.color2.toLowerCase()+" "+data.food2.toLowerCase()+" was gone!  So "+data.personsubj.toLowerCase()+" set out on a quest to find more!";
+        document.getElementById("line4").innerHTML="After leaving "+data.city.ucfirst()+", "+data.person.ucfirst()+" tripped over a rock and began tumbling down the mountain.";
+        document.getElementById("line5").innerHTML=data.person.ucfirst()+" was unconscious for almost an hour!  But luckily, a wise person named "+data.person2.ucfirst()+" found "+data.personobj.toLowerCase()+" and brought "+data.personobj.toLowerCase()+" back to camp.";
+        document.getElementById("line6").innerHTML="After "+data.personsubj.toLowerCase()+" recovered, "+data.person.ucfirst()+" explained how "+data.personsubj.toLowerCase()+" was looking for "+data.color2.toLowerCase()+" "+data.food2.toLowerCase()+".";
+        document.getElementById("line7").innerHTML="But then, "+data.person2.ucfirst()+" told "+data.personobj.toLowerCase()+" that a "+data.color2.toLowerCase()+" "+data.food2.toLowerCase()+" festival was in town!";
+        document.getElementById("line8").innerHTML=data.person.ucfirst()+" decided to stay at the camp forever, and everyone lived happily ever after!";
+        document.getElementById("line9").innerHTML="Except "+data.person.ucfirst()+"'s family and friends, who never saw "+data.personobj.toLowerCase()+" again.";
+      }
+    </script>
+	</body>
+</html>
